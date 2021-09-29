@@ -21,13 +21,20 @@ def retransport(s) :
     #s = "0001"
 
     s = list_chunk(list(FillUp0(str(s))),4)
-    #print(s)
+    print("retransport s :",s)
     r = []
     for j in range(len(s)) :
         t = 0
         for i in range(len(s[j])) :
-            t += ((len(s[j])-i-1)**2)*((int(s[j][i])))
+            print("len(s[j])-i-1 :",len(s[j])-i-1)
+            print("(2**(len(s[j])-i-1)) :",(2**(len(s[j])-i-1)))
+            print("(int(s[j][i])) :",(int(s[j][i])))
+            print("t += :",(2**(len(s[j])-i-1))*(int(s[j][i])))
+            t += ((len(s[j])-i-1)**2)*(int(s[j][i]))
+            print("\n")
         r.append(str(str_int(t)))
+        print("\n")
+    
 
     return "".join(r)
         

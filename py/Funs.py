@@ -89,8 +89,8 @@ class tr :
     def XorOnStr(s1,s2) :
         #s1 데이터 추정 : "00101010"
         #s2 데이터 추정 : "01100110"
-        print("funs tr XorOnStr s1 :",s1)
-        print("funs tr XorOnStr s2 :",s2)
+        #print("funs tr XorOnStr s1 :",s1)
+        #print("funs tr XorOnStr s2 :",s2)
         s1 = list(str(s1))
         s2 = list(str(s2))
         res = []
@@ -103,16 +103,31 @@ class tr :
         #l1 = ['f3', '59', '47', 'f1']
         #l2 = ['09', 'cf', '4f', '3c']
         
-        print("funs tr xor word l1 :",l1)
-        print("funs tr xor word l2 :",l2)
+        #print("funs tr xor word l1 :",l1)
+        #print("funs tr xor word l2 :",l2)
         res = []
         for i in range((len(l1)+len(l2))//2) :
             t1 = tr.transport(l1[i])
             t2 = tr.transport(l2[i])
             res.append(tr.retransport(tr.XorOnStr(t1,t2)))
         return res
+class print_funcs :
+    
 
+    def print_str_div(prints,div_num=0) :
+        #div num 은 몇번 출력 당 줄을 넘을건지 미리 알려주는 변수.
+        for i in range(len(prints)) :
+            if i % div_num == 0 :
+                print()
+            print(prints[i],end="")
         
         
+    def print_list_nicly(arr) :
+        arr = str(arr)
+        for i in range(len(arr)) :
+            if arr[i-1] == "]" and arr[i] == "," :
+                print()
+            print(arr[i],end="")
+        print()
 
 

@@ -47,8 +47,7 @@ def SetUpAllKey(key_list) :
         res.extend(ApplyKey(i))
     #print("before res of list chunck :",res)
     res = Funs.tr.list_chunk(res,4)
-    for i in range(len(res)) :
-        res[i] = rot_3_1(res[i])
+    
     return res
 
 def rot_3_1(key_part) :
@@ -57,12 +56,9 @@ def rot_3_1(key_part) :
     #print("rot_3_1 key_part key_part :",key_part)
     
     
-    #key_part[0],key_part[len(key_part)-1] = key_part[len(key_part)-1],key_part[0]
     res = [key_part[1],key_part[2],key_part[3]]
     temp = [key_part[0]]
     res.extend(temp)
-
-
 
     #print("rot_3_1 key_part res :",res)
     return res
@@ -87,15 +83,26 @@ C_key = GetKey()
 r1t = SetUpAllKey(C_key)
 C_key = Funs.tr.list_chunk(C_key,4)
 
+r1 = []
+for i in range(len(r1t)) :
+    if i == 0 :
+        r1tt = rot_3_1(r1t[len(r1t)-1-i])
+        print("i :",i)
+        print("C_key[i] :",C_key[i])
+        print("r1tt :",r1tt)
+        rcon = [rcons[0],'00','00','00']
+        print("rcon :",rcon)
+        temp = Funs.tr.XOR_list(C_key[i],r1tt)
+        print("temp 1 :",temp)
+        temp = Funs.tr.XOR_list(temp,rcon)
+        print("temp 2 :",temp)
+        r1.append(temp)
+    else :
+        r1.append(Funs.tr.XOR_list(C_key[i],r1[i-1]))
 
-print("r1t :",r1t)
-print("C_key :",C_key)
-temp = Funs.tr.XOR_list(C_key[0],r1t[3])
-print("temp 1 :",temp)
+        
 
-print("rcon :",rcons)
-rcon = [rcons[0],'00','00','00']
-temp = Funs.tr.XOR_list(temp,rcon)
-print("temp 2 :",temp)
+    #print("\t\ti = {} , temp : {}".format(i,temp))
+Funs.print_funcs.print_list_nicly(r1)
 
 

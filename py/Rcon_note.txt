@@ -1,0 +1,61 @@
+Rcon 이론 구조
+r1  r2  r3  r4  r5  r6
+01  02  04  08  10  1a
+00  00  00  00  00  00
+00  00  00  00  00  00
+00  00  00  00  00  00
+
+
+Rcon 실제 구조
+01020408101a
+
+
+Rcon 활용 구조
+['01','00','00','00']
+['02','00','00','00']
+['04','00','00','00']
+['08','00','00','00']
+['10','00','00','00']
+['1a','00','00','00']
+
+다만 여기서 문제가 발생하는데
+
+hex(2 ** 0) = 0x1
+hex(2 ** 1) = 0x2
+hex(2 ** 2) = 0x4
+hex(2 ** 3) = 0x8
+hex(2 ** 4) = 0x10
+hex(2 ** 5) = 0x20
+hex(2 ** 6) = 0x40
+hex(2 ** 7) = 0x80
+hex(2 ** 8) = 0x100
+hex(2 ** 9) = 0x200
+hex(2 ** 10) = 0x400
+
+보다시피 8라운드 이상으로 넘어가버리면
+3번째 자리까지 차지하게 되면서
+근본적으로 XOR 연산을 할 수 없는 상황에 이른다
+그렇기에 해당 AES 256에서는 다음과 같은
+rcon을 사용한다.
+
+round 1 rcon : 01
+round 2 rcon : 02
+round 3 rcon : 04
+round 4 rcon : 08
+round 5 rcon : 10
+round 6 rcon : 20
+round 7 rcon : 40
+round 8 rcon : 80
+round 9 rcon : 1b
+round 10 rcon : 36
+
+round 1 rcon on dec : 01
+round 2 rcon on dec : 02
+round 3 rcon on dec : 04
+round 4 rcon on dec : 08
+round 5 rcon on dec : 16
+round 6 rcon on dec : 32
+round 7 rcon on dec : 64
+round 8 rcon on dec : 128
+round 9 rcon on dec : 27
+round 10 rcon on dec : 54

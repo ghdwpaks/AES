@@ -30,7 +30,7 @@ def retransport(s) :
             print("(2**(len(s[j])-i-1)) :",(2**(len(s[j])-i-1)))
             print("(int(s[j][i])) :",(int(s[j][i])))
             print("t += :",(2**(len(s[j])-i-1))*(int(s[j][i])))
-            t += ((len(s[j])-i-1)**2)*(int(s[j][i]))
+            t += ((2**(len(s[j])-i-1))*(int(s[j][i])))
             print("\n")
         r.append(str(str_int(t)))
         print("\n")

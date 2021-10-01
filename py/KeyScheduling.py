@@ -42,10 +42,31 @@ def ApplyKey(key_part) :
 def SetUpAllKey(key_list) :
     #key_list = "['2b', '28', 'ab', '09', '7e', 'ae', 'f7', 'cf', '15', 'd2', '15', '4f', '16', 'a6', '88', '3c']"
     res = []
-    print("key_list :",key_list)
+    #print("key_list :",key_list)
     for i in key_list :
-        res.append(ApplyKey(i))
+        res.extend(ApplyKey(i))
+    #print("before res of list chunck :",res)
+    res = Funs.tr.list_chunk(res,4)
+    for i in range(len(res)) :
+        res[i] = rot_3_1(res[i])
     return res
+
+def rot_3_1(key_part) :
+    #key_part = ['01', '8a', '84', 'eb']
+    #res = ['8a', '84', 'eb', '01']
+    #print("rot_3_1 key_part key_part :",key_part)
+    
+    
+    #key_part[0],key_part[len(key_part)-1] = key_part[len(key_part)-1],key_part[0]
+    res = [key_part[1],key_part[2],key_part[3]]
+    temp = [key_part[0]]
+    res.extend(temp)
+
+
+
+    #print("rot_3_1 key_part res :",res)
+    return res
+    
 
 
 def GetKey(path="Key.txt") :
@@ -58,13 +79,23 @@ def GetKey(path="Key.txt") :
         key_list.append(str_key[i]+str_key[i+1])
     return key_list
 
+rkey = []
 
 sbox = ReturnUpSbox()
-rcon = ReturnUpRcon()
+rcons = ReturnUpRcon()
 C_key = GetKey()
+r1t = SetUpAllKey(C_key)
+C_key = Funs.tr.list_chunk(C_key,4)
 
 
-rkey = []
-r1 = SetUpAllKey(C_key)
-print("r1 :",r1)
+print("r1t :",r1t)
+print("C_key :",C_key)
+temp = Funs.tr.XOR_list(C_key[0],r1t[3])
+print("temp 1 :",temp)
+
+print("rcon :",rcons)
+rcon = [rcons[0],'00','00','00']
+temp = Funs.tr.XOR_list(temp,rcon)
+print("temp 2 :",temp)
+
 

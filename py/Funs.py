@@ -87,6 +87,10 @@ class tr :
         return "".join(i)
 
     def XorOnStr(s1,s2) :
+        #s1 데이터 추정 : "00101010"
+        #s2 데이터 추정 : "01100110"
+        print("funs tr XorOnStr s1 :",s1)
+        print("funs tr XorOnStr s2 :",s2)
         s1 = list(str(s1))
         s2 = list(str(s2))
         res = []
@@ -95,6 +99,20 @@ class tr :
             else : res.append("1")
         return "".join(res)
 
+    def XOR_list(l1,l2) :
+        #l1 = ['f3', '59', '47', 'f1']
+        #l2 = ['09', 'cf', '4f', '3c']
+        
+        print("funs tr xor word l1 :",l1)
+        print("funs tr xor word l2 :",l2)
+        res = []
+        for i in range((len(l1)+len(l2))//2) :
+            t1 = tr.transport(l1[i])
+            t2 = tr.transport(l2[i])
+            res.append(tr.retransport(tr.XorOnStr(t1,t2)))
+        return res
 
+        
+        
 
 

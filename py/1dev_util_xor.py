@@ -1,6 +1,9 @@
 from os import rename
 import copy as c
 
+from os import rename
+import copy as c
+
 class tr :
     def transport(n) :
         #n = "2b"
@@ -94,6 +97,16 @@ class tr :
             if s1[i] == s2[i] : res.append("0")
             else : res.append("1")
         return "".join(res)
+
+    def XOR_word(w1,w2) :
+        #w1 = 8a
+        #w2 = 09
+        
+        print("funs tr xor word w1 :",w1)
+        print("funs tr xor word w2 :",w2)
+        
+        
+print(tr.transport("2b"))
 
 
 

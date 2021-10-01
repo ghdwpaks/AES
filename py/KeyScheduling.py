@@ -80,29 +80,43 @@ rkey = []
 sbox = ReturnUpSbox()
 rcons = ReturnUpRcon()
 C_key = GetKey()
-r1t = SetUpAllKey(C_key)
 C_key = Funs.tr.list_chunk(C_key,4)
 
-r1 = []
-for i in range(len(r1t)) :
-    if i == 0 :
-        r1tt = rot_3_1(r1t[len(r1t)-1-i])
-        print("i :",i)
-        print("C_key[i] :",C_key[i])
-        print("r1tt :",r1tt)
-        rcon = [rcons[0],'00','00','00']
-        print("rcon :",rcon)
-        temp = Funs.tr.XOR_list(C_key[i],r1tt)
-        print("temp 1 :",temp)
-        temp = Funs.tr.XOR_list(temp,rcon)
-        print("temp 2 :",temp)
-        r1.append(temp)
-    else :
-        r1.append(Funs.tr.XOR_list(C_key[i],r1[i-1]))
+r = []
+print("rcons :",rcons)
+for j in range(10) :
+    rj = []
+    tc = C_key  #target c key
+    print("j+1 :",j+1)
+    if not j == 0 :
+        tc = r[j-1]
 
+    for i in range(len(tc)) :
+        if i == 0 :
+            #print("true")
+            #r1tt = rot_3_1(r1t[len(r1t)-1-i])
+            #print("SetUpAllKey(tc[3])[0]) :",SetUpAllKey(tc[3])[0])
+            r1tt = rot_3_1(SetUpAllKey(tc[3])[0])
+            #print("i :",i)
+            #print("tc[i] :",tc[i])
+            #print("r1tt :",r1tt)
+            rcon = [rcons[j],'00','00','00']
+            #print("rcon :",rcon)
+            #print("rcon :",rcon)
+            temp = Funs.tr.XOR_list(tc[i],r1tt)
+            #print("temp 1 :",temp)
+            temp = Funs.tr.XOR_list(temp,rcon)
+            #print("temp 2 :",temp)
+            rj.append(temp)
+        else :
+            #print("false")
+            rj.append(Funs.tr.XOR_list(tc[i],rj[i-1]))
+    print("rj :")
+    print(Funs.print_funcs.print_list_nicly(rj))
+    r.append(rj)
         
 
     #print("\t\ti = {} , temp : {}".format(i,temp))
-Funs.print_funcs.print_list_nicly(r1)
+#Funs.print_funcs.print_list_nicly(r)
 
 

@@ -69,14 +69,17 @@ def rot(key_part,rot=1) :
     
 
 
-def GetKey(path="key_folder/Key.txt") :
+def GetKey(path="key_folder/Key.txt",div=2) :
     f = open(path,"r")
     ls = f.readlines()
     f.close()
     str_key = str("".join(ls))
     key_list = []
-    for i in range(0,len(str_key),2) :
-        key_list.append(str_key[i]+str_key[i+1])
+    for i in range(0,len(str_key),div) :
+        temp = str_key[i]
+        for j in range(1,div) :
+            temp += str_key[i+j]
+        key_list.append(temp)
     return key_list
 
 def ks_main() :

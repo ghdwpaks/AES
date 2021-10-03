@@ -31,33 +31,38 @@ def ReturnUpRcon() :
     Rcon += ['1b','36'] 
     return Rcon
 
-def ApplyKey(key_part) :
-    global sbox
+def ApplyKey(sbox,key_part) :
     #key_part = '2b'
     key_part = list(key_part)
     res = []
     res.append(sbox[int(Funs.tr.str_int(key_part[0]))][int(Funs.tr.str_int(key_part[1]))])
     return res
 
-def SetUpAllKey(key_list) :
+def SetUpAllKey(sbox,key_list) :
     #key_list = "['2b', '28', 'ab', '09', '7e', 'ae', 'f7', 'cf', '15', 'd2', '15', '4f', '16', 'a6', '88', '3c']"
     res = []
     #print("key_list :",key_list)
     for i in key_list :
-        res.extend(ApplyKey(i))
+        res.extend(ApplyKey(sbox,i))
     #print("before res of list chunck :",res)
     res = Funs.tr.list_chunk(res,4)
     
     return res
 
-def rot_3_1(key_part) :
+def rot(key_part,rot=1) :
     #key_part = ['01', '8a', '84', 'eb']
     #res = ['8a', '84', 'eb', '01']
     #print("rot_3_1 key_part key_part :",key_part)
+    res = []
+    temp = []
+    #for i in range(rot) :
+    for i2 in range(4-rot) :
+        res.append(key_part[i2+rot])
     
+    for i3 in range(rot) :
+        temp.append(key_part[i3])
+
     
-    res = [key_part[1],key_part[2],key_part[3]]
-    temp = [key_part[0]]
     res.extend(temp)
 
     #print("rot_3_1 key_part res :",res)
@@ -65,7 +70,7 @@ def rot_3_1(key_part) :
     
 
 
-def GetKey(path="Key.txt") :
+def GetKey(path="key_folder/Key.txt") :
     f = open(path,"r")
     ls = f.readlines()
     f.close()
@@ -75,48 +80,48 @@ def GetKey(path="Key.txt") :
         key_list.append(str_key[i]+str_key[i+1])
     return key_list
 
-rkey = []
+def ks_main() :
 
-sbox = ReturnUpSbox()
-rcons = ReturnUpRcon()
-C_key = GetKey()
-C_key = Funs.tr.list_chunk(C_key,4)
+    sbox = ReturnUpSbox()
+    rcons = ReturnUpRcon()
+    C_key = GetKey()
+    C_key = Funs.tr.list_chunk(C_key,4)
 
-r = []
-print("rcons :",rcons)
-for j in range(10) :
-    rj = []
-    tc = C_key  #target c key
-    print("j+1 :",j+1)
-    if not j == 0 :
-        tc = r[j-1]
+    r = []
+    #print("rcons :",rcons)
+    for j in range(10) :
+        rj = []
+        tc = C_key  #target c key
+        #print("j+1 :",j+1)
+        if not j == 0 :
+            tc = r[j-1]
 
-    for i in range(len(tc)) :
-        if i == 0 :
-            #print("true")
-            #r1tt = rot_3_1(r1t[len(r1t)-1-i])
-            #print("SetUpAllKey(tc[3])[0]) :",SetUpAllKey(tc[3])[0])
-            r1tt = rot_3_1(SetUpAllKey(tc[3])[0])
-            #print("i :",i)
-            #print("tc[i] :",tc[i])
-            #print("r1tt :",r1tt)
-            rcon = [rcons[j],'00','00','00']
-            #print("rcon :",rcon)
-            #print("rcon :",rcon)
-            temp = Funs.tr.XOR_list(tc[i],r1tt)
-            #print("temp 1 :",temp)
-            temp = Funs.tr.XOR_list(temp,rcon)
-            #print("temp 2 :",temp)
-            rj.append(temp)
-        else :
-            #print("false")
-            rj.append(Funs.tr.XOR_list(tc[i],rj[i-1]))
-    print("rj :")
-    print(Funs.print_funcs.print_list_nicly(rj))
-    r.append(rj)
-        
+        for i in range(len(tc)) :
+            if i == 0 :
+                #print("true")
+                #r1tt = rot_3_1(r1t[len(r1t)-1-i])
+                #print("SetUpAllKey(tc[3])[0]) :",SetUpAllKey(tc[3])[0])
+                r1tt = rot(SetUpAllKey(sbox,tc[3])[0])
+                #print("i :",i)
+                #print("tc[i] :",tc[i])
+                #print("r1tt :",r1tt)
+                rcon = [rcons[j],'00','00','00']
+                #print("rcon :",rcon)
+                #print("rcon :",rcon)
+                temp = Funs.tr.XOR_list(tc[i],r1tt)
+                #print("temp 1 :",temp)
+                temp = Funs.tr.XOR_list(temp,rcon)
+                #print("temp 2 :",temp)
+                rj.append(temp)
+            else :
+                #print("false")
+                rj.append(Funs.tr.XOR_list(tc[i],rj[i-1]))
+        #print("rj :")
+        #print(Funs.#print_funcs.#print_list_nicly(rj))
+        r.append(rj)
+            
 
-    #print("\t\ti = {} , temp : {}".format(i,temp))
-#Funs.print_funcs.print_list_nicly(r)
-
+        #print("\t\ti = {} , temp : {}".format(i,temp))
+    #Funs.#print_funcs.#print_list_nicly(r)
+    return r
 

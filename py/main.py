@@ -17,7 +17,7 @@ def ShiftRows(state) :
     ShiftRow_state_temp = []
     for i in range(len(state)) :
         ShiftRow_state_temp.extend(state[i])
-    print("ShiftRows ShiftRow_state_temp :",ShiftRow_state_temp)
+    #print("ShiftRows ShiftRow_state_temp :",ShiftRow_state_temp)
 
     ShiftRows_state = []
     for i in range(4) :
@@ -27,24 +27,34 @@ def ShiftRows(state) :
         for j in range(4) :
             ShiftRows_state[i].append(ShiftRow_state_temp[(j*4)+i])
     
-    print("\n\nshiftrows_state 1:",end="")
-    p.print_str_div(ShiftRows_state,1)
+    #print("\n\nshiftrows_state 1:",end="")
+    #p.print_str_div(ShiftRows_state,1)
 
     
-    print("\n\n")
+    #print("\n\n")
     for i in range(4) :
-        print("shiftrows state[",i,"] :",ShiftRows_state[i])
+        #print("shiftrows state[",i,"] :",ShiftRows_state[i])
         temp = ks.rot(ShiftRows_state[i],i)
-        print("shiftrows temp",i,":",temp)
+        #print("shiftrows temp",i,":",temp)
         #ShiftRows_state[i] = ks.rot(ShiftRows_state[i],i)
         ShiftRows_state[i] = temp
-        print("\n")
-    print("\n")
+        #print("\n")
+    #print("\n")
     
-    print("\n\nshiftrows_state 2:",end="")
-    p.print_str_div(ShiftRows_state,1)
-    print("\n\n")
-    return state
+    #print("\n\nshiftrows_state 2:",end="")
+    #p.print_str_div(ShiftRows_state,1)
+    #print("\n\nshiftrows_state 3:",ShiftRows_state)
+    #print("\n\n")
+
+    res = []
+    for i in range(4) :
+        res.append([])
+    
+    for i in range(4) :
+        for j in range(4) :
+            res[i].append(ShiftRows_state[j][i])
+    #print("ShiftRows res :",res)
+    return res
 
 
 

@@ -22,8 +22,6 @@ def ShiftRows(state) :
     ShiftRows_state = []
     for i in range(4) :
         ShiftRows_state.append([])
-
-    for i in range(4) :
         for j in range(4) :
             ShiftRows_state[i].append(ShiftRow_state_temp[(j*4)+i])
     
@@ -47,10 +45,9 @@ def ShiftRows(state) :
     #print("\n\n")
 
     res = []
-    for i in range(4) :
-        res.append([])
     
     for i in range(4) :
+        res.append([])
         for j in range(4) :
             res[i].append(ShiftRows_state[j][i])
     #print("ShiftRows res :",res)

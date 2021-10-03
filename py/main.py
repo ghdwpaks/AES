@@ -53,23 +53,39 @@ def ShiftRows(state) :
     #print("ShiftRows res :",res)
     return res
 
+  
+
+
+def setup_mcl() :
+    mclt = ks.GetKey("key_folder/mixcolumns_list.txt",1)
+    mcl = []
+    for i in range(len(mclt)) :
+        mcl.append("0"+mclt[i])
+
+    mcl = t.list_chunk(mcl,4)
+    return mcl
+
+def MixColumns_cal_list(l,mcl,loc) :
+    # l = ['d4', 'bf', '5d', '30']
+    '''
+      mcl = [['02', '03', '01', '01'], ['01', '02', '03', '01'], ['01', '01', '02', '03'], ['03', '01', '01', '02']]  
+    '''
+    res = []
+    temp_res = 0
+    temp = 0
+    for i in range(len(l)) :
+        temp += t.hexstr_to_int(l[i]) * mcl[loc][i]
+        if temp >= 256 : temp -= 256 
+        temp_res = temp_res ^ temp
     
-def hexstr_to_bin(s,hexlist) :
-    #s = "d4"
-    s = list(s)
-    for i in range(len(s)) :
-        s[i] = t.str_int(s[i],2)
-    s.reverse()
-    print("str ot hex s :",s)
-    res = 0
-    for i in range(len(s)) :
-        res += s[i]*hexlist[i]
-    print("res :",res)
-    if res >= 256 :
-        res -= 256
+
+
+
+def MixColumns(state) :
+    mcl = setup_mcl()
     
-def MixColumns() :
-    pass
+
+
 
 
 state = SubBytes(ks.GetKey("key_folder/State_code.txt"),sbox)

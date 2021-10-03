@@ -46,7 +46,7 @@ class tr :
         
 
         return "".join(r)
-    def hexstr_to_bin(s) :
+    def hexstr_to_int(s) :
         hexlist = [1]
         temp = 0
         for i in range(1,5) :
@@ -62,9 +62,9 @@ class tr :
         for i in range(len(s)) :
             res += s[i]*hexlist[i]
         #print("res :",res)
-        if res >= 256 :
-            res -= 256 
         return res 
+    
+    
         
 
     def str_int(s,type=1) :

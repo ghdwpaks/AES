@@ -46,17 +46,22 @@ class tr :
         
 
         return "".join(r)
-    def hexstr_to_bin(s,hexlist) :
+    def hexstr_to_bin(s) :
+        hexlist = [1]
+        temp = 0
+        for i in range(1,5) :
+            hexlist.append(16**i)
+        #print("hexlist :",hexlist)
         #s = "d4"
         s = list(s)
         for i in range(len(s)) :
             s[i] = tr.str_int(s[i],2)
         s.reverse()
-        print("str ot hex s :",s)
+        #print("str ot hex s :",s)
         res = 0
         for i in range(len(s)) :
             res += s[i]*hexlist[i]
-        print("res :",res)
+        #print("res :",res)
         if res >= 256 :
             res -= 256 
         return res 

@@ -64,6 +64,36 @@ class tr :
         #print("res :",res)
         return res 
     
+    def int_to_bin(inp) :
+        res = []
+        hexlist = [1]
+        temp = 0
+        for i in range(1,5) :
+            hexlist.append(16**i)
+        hexlist.reverse()
+        print(hexlist)
+        res_len = 0
+        for i in range(len(hexlist)) :
+            res_len += 1
+            if i == len(hexlist)-1 : res.append(inp)
+            else :
+                appending = inp//hexlist[i]
+                res.append(appending)
+                if appending > 0 :
+                    inp -= hexlist[i]*appending
+        i = 0
+        canpass = True
+        while True :
+            if i > len(res)-1 : break
+            if (res[i] == 0 or res[i] == "0" ) and canpass: res = res[1:]
+            else :
+                canpass = False
+                res[i] = tr.FillUp0(str(bin(res[i]))[2:])
+                i+=1
+            
+            
+        res = "".join(res)
+        return res
     
         
 
@@ -113,6 +143,11 @@ class tr :
         #s2 데이터 추정 : "01100110"
         #print("funs tr XorOnStr s1 :",s1)
         #print("funs tr XorOnStr s2 :",s2)
+        if not len(s1) == len(s2) :
+            if len(s1) > len(s2) :
+                s2 = tr.FillUp0(s2,len(s1))
+            else :
+                s1 = tr.FillUp0(s1,len(s2))
         s1 = list(str(s1))
         s2 = list(str(s2))
         res = []

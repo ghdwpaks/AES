@@ -21,8 +21,21 @@ def MixColumns_cal_list(l,mcl,loc) :
         print("temp_res 2:",temp_res,"temp :",temp)
         if temp > 255 : 
             temp %= 256 
-        temp_res = temp ^ temp_res
+        print("int(temp) :",int(temp))
+        print("int(temp_res) :",int(temp_res))
+        temp = tr.int_to_bin(int(temp))
+        temp_res = tr.int_to_bin(int(temp_res))
+
+        #temp_res = temp ^ temp_res
+        print("temp 123: ",temp)
+        print("temp_res 123: ",temp_res)
+        print("type(temp) :",type(temp))
+        print("type(temp_res) :",type(temp_res))
+        
+        temp_res = tr.XorOnStr(temp,temp_res)
         print("temp_res 3:",temp_res)
+        temp_res = tr.retransport(temp_res)
+        print("temp_res 4:",temp_res)
         print("\n")
     print("MixColumns_cal_list temp_res 1:",temp_res)    
     if temp_res > 255 : 

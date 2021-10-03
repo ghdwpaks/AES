@@ -46,10 +46,23 @@ class tr :
         
 
         return "".join(r)
-            
+    def hexstr_to_bin(s,hexlist) :
+        #s = "d4"
+        s = list(s)
+        for i in range(len(s)) :
+            s[i] = tr.str_int(s[i],2)
+        s.reverse()
+        print("str ot hex s :",s)
+        res = 0
+        for i in range(len(s)) :
+            res += s[i]*hexlist[i]
+        print("res :",res)
+        if res >= 256 :
+            res -= 256 
+        return res 
         
 
-    def str_int(s) :
+    def str_int(s,type=1) :
         if s == "a" : return 10
         elif s == "b" : return 11
         elif s == "c" : return 12
@@ -74,8 +87,12 @@ class tr :
         elif s == 13 : return "d"
         elif s == 14 : return "e"
         elif s == 15 : return "f"
-        else : return s
-
+        else : 
+            if type == 1 :
+                return s
+            elif type == 2 :
+                return int(s)
+    
     def FillUp0(i,byte=4) :
         #i = 10
         i = list(i)

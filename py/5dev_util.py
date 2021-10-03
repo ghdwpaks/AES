@@ -11,6 +11,7 @@ l2 = [
 
 print(l1)
 res = c.deepcopy(l1)
+
 for i in range(len(l2)) :
-    res = tr.XOR_list(l2[i],res)
+    pass
 print(res)

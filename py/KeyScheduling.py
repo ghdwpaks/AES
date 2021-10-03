@@ -28,7 +28,6 @@ def ReturnUpRcon() :
     Rcon = []
     for i in range(0,8) :
         Rcon.append(Funs.tr.FillUp0(str(hex(2**i))[2:],2))
-    Rcon += ['1b','36'] 
     return Rcon
 
 def ApplyKey(sbox,key_part) :
@@ -84,6 +83,7 @@ def ks_main() :
 
     sbox = ReturnUpSbox()
     rcons = ReturnUpRcon()
+    rcons += ['1b','36'] 
     C_key = GetKey()
     C_key = Funs.tr.list_chunk(C_key,4)
 

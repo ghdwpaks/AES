@@ -48,6 +48,19 @@ for i in range(4) :
     Tm = xtime(Tm); 
     state[3][i] ^= Tm ^ Tmp;
 print("state :",state)
+res = []
+    
+for i in range(4) :
+    res.append([])
+    for j in range(4) :
+        res[i].append(state[j][i])
+print("res 1 :",res)
+for i in range(len(res)) :
+    for j in range(len(res[i])) :
+        res[i][j] = str(hex(res[i][j]))[2:]
+        if (len(res[i][j])>2) :
+            res[i][j] = res[i][j][1:]
+print("res 2 :",res)
 
 
 

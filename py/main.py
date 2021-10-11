@@ -79,20 +79,35 @@ def AddRoundKey(state,rkey,round_count) :
         res.append(tr.XOR_list(state[i],rkey[round_count][i]))
     return res
 
+def SubBytes(state,sbox) :
+    print("SubBytes state :",state)
+    #state =  [['19', '3d', 'e3', 'be'], ['a0', 'f4', 'e2', '2b'], ['9a', 'c6', '8d', '2a'], ['e9', 'f8', '48', '08']]
+    temp = []
+    for i in range(len(state)) :
+        temp.extend(state[i])
+    temp = ks.SetUpAllKey(sbox,temp)
+    temp = tr.list_chunk(temp,4)[0]
+    return temp
 
 
 
 
 
-state = tr.SubBytes(ks.GetKey("key_folder/State_code.txt"),sbox)
+
+#state = tr.SubBytes(ks.GetKey("State.txt"),sbox)
+input_state = tr.list_chunk(ks.GetKey("State.txt"),4)
+input_round_key = tr.list_chunk(ks.GetKey("Cipher.txt"),4)
+state = []
+for i in range(len(input_state)) :
+    state.append(tr.XOR_list(input_state[i],input_round_key[i]))
 print("state 1 :",state)
-
-state = ShiftRows(state)
-print("state 2 :",state)
-state = MixColumns(state)
-print("state 3 :",state)
-state = AddRoundKey(state,rkey,0)
-print("state 4 :",state)
+#round 1 r key = rkey[0]
+for i in range(9) :
+    state = SubBytes(state,sbox)
+    state = ShiftRows(state)
+    state = MixColumns(state)
+    state = AddRoundKey(state,rkey,i)
+    print("round {} state : {}".format(i+1,state))
 
 
 

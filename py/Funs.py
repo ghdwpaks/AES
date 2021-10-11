@@ -4,10 +4,6 @@ import KeyScheduling as ks
 
 class tr :
     def xtime(x) : return ((x<<1) ^ (((x>>7) & 1) * 0x1b))
-    def SubBytes(state,sbox) :
-        state = ks.SetUpAllKey(sbox,state)
-        state = tr.list_chunk(state,4)[0]
-        return state
 
     def Vertical2Horizontal(state) :
         #세로를 가로로

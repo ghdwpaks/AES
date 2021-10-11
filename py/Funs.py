@@ -1,7 +1,37 @@
 from os import rename
 import copy as c
+import KeyScheduling as ks
 
 class tr :
+    def xtime(x) : return ((x<<1) ^ (((x>>7) & 1) * 0x1b))
+    def SubBytes(state,sbox) :
+        state = ks.SetUpAllKey(sbox,state)
+        state = tr.list_chunk(state,4)[0]
+        return state
+
+    def Vertical2Horizontal(state) :
+        #세로를 가로로
+        ShiftRow_state_temp = []
+        for i in range(len(state)) :
+            ShiftRow_state_temp.extend(state[i])
+        #print("ShiftRows ShiftRow_state_temp :",ShiftRow_state_temp)
+
+        ShiftRows_state = []
+        for i in range(4) :
+            ShiftRows_state.append([])
+            for j in range(4) :
+                ShiftRows_state[i].append(ShiftRow_state_temp[(j*4)+i])
+        return ShiftRows_state
+
+    def Horizontal2Vertical(state) :
+        #가로를 세로로
+        res = []
+        for i in range(4) :
+            res.append([])
+            for j in range(4) :
+                res[i].append(state[j][i])
+        return res
+
     def transport(n) :
         #n = "2b"
         res = []

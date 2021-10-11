@@ -80,7 +80,7 @@ def AddRoundKey(state,rkey,round_count) :
     return res
 
 def SubBytes(state,sbox) :
-    print("SubBytes state :",state)
+    #print("SubBytes state :",state)
     #state =  [['19', '3d', 'e3', 'be'], ['a0', 'f4', 'e2', '2b'], ['9a', 'c6', '8d', '2a'], ['e9', 'f8', '48', '08']]
     temp = []
     for i in range(len(state)) :
@@ -103,12 +103,13 @@ for i in range(len(input_state)) :
 print("state 1 :",state)
 #round 1 r key = rkey[0]
 for i in range(9) :
-    state = SubBytes(state,sbox)
-    state = ShiftRows(state)
-    state = MixColumns(state)
-    state = AddRoundKey(state,rkey,i)
+    state = AddRoundKey(MixColumns(ShiftRows(SubBytes(state,sbox))),rkey,i)
     print("round {} state : {}".format(i+1,state))
-
+state = SubBytes(state,sbox)
+state = ShiftRows(state)
+state = AddRoundKey(state,rkey,9)
+print(state)
+res = []
 
 
 

@@ -73,6 +73,13 @@ def MixColumns(state) :
     res = tr.Horizontal2Vertical(state)
     return res
     
+def AddRoundKey(state,rkey,round_count) :
+    res = []
+    for i in range(len(state)) :
+        res.append(tr.XOR_list(state[i],rkey[round_count][i]))
+    return res
+
+
 
 
 
@@ -82,8 +89,11 @@ print("state 1 :",state)
 
 state = ShiftRows(state)
 print("state 2 :",state)
-print("\n\n\n")
 state = MixColumns(state)
+print("state 3 :",state)
+state = AddRoundKey(state,rkey,0)
+print("state 4 :",state)
+
 
 
 

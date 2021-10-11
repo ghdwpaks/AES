@@ -7,6 +7,7 @@ def xtime(x) :
 print(xtime(0x18))
 state = [['d4', 'bf', '5d', '30'], ['e0', 'b4', '52', 'ae'], ['b8', '41', '11', 'f1'], ['1e', '27', '98', 'e5']]
 state = [[0xd4, 0xbf, 0x5d, 0x30], [0xe0, 0xb4, 0x52, 0xae], [0xb8, 0x41, 0x11, 0xf1], [0x1e, 0x27, 0x98, 0xe5]]
+
 ShiftRow_state_temp = []
 for i in range(len(state)) :
     ShiftRow_state_temp.extend(state[i])

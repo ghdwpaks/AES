@@ -13,7 +13,7 @@ def SubBytes(state,sbox) :
     return state
 
 def Vertical2Horizontal(state) :
-    #세로와 가로
+    #세로를 가로로
     ShiftRow_state_temp = []
     for i in range(len(state)) :
         ShiftRow_state_temp.extend(state[i])
@@ -26,17 +26,18 @@ def Vertical2Horizontal(state) :
             ShiftRows_state[i].append(ShiftRow_state_temp[(j*4)+i])
     return ShiftRows_state
 
-def ShiftRows(state) :
-    ShiftRow_state_temp = []
-    for i in range(len(state)) :
-        ShiftRow_state_temp.extend(state[i])
-    #print("ShiftRows ShiftRow_state_temp :",ShiftRow_state_temp)
-
-    ShiftRows_state = []
+def Horizontal2Vertical(state) :
+    #가로를 세로로
+    res = []
     for i in range(4) :
-        ShiftRows_state.append([])
+        res.append([])
         for j in range(4) :
-            ShiftRows_state[i].append(ShiftRow_state_temp[(j*4)+i])
+            res[i].append(state[j][i])
+    return res
+
+
+def ShiftRows(state) :
+    ShiftRows_state = Vertical2Horizontal(state)
     
     #print("\n\nshiftrows_state 1:",end="")
     #p.print_str_div(ShiftRows_state,1)
@@ -57,12 +58,8 @@ def ShiftRows(state) :
     #print("\n\nshiftrows_state 3:",ShiftRows_state)
     #print("\n\n")
 
-    res = []
+    res = Horizontal2Vertical(ShiftRows_state)
     
-    for i in range(4) :
-        res.append([])
-        for j in range(4) :
-            res[i].append(ShiftRows_state[j][i])
     #print("ShiftRows res :",res)
     return res
 
@@ -75,59 +72,30 @@ def MixColumns(state) :
         for j in range(len(state[i])) :
             state[i][j] = int("0x"+state[i][j],16)
     print(state)
-    ShiftRow_state_temp = []
-    for i in range(len(state)) :
-        ShiftRow_state_temp.extend(state[i])
-    ShiftRows_state = []
-    for i in range(4) :
-        ShiftRows_state.append([])
-        for j in range(4) :
-            ShiftRows_state[i].append(ShiftRow_state_temp[(j*4)+i])
-    print("ShiftRows_state :",ShiftRows_state)
 
-    state = c.deepcopy(ShiftRows_state)
+
+    state = Vertical2Horizontal(state)
     #for (i = 0; i < 4; i++)
     for i in range(4) :
         t = state[0][i];
 
         Tmp = state[0][i] ^ state[1][i] ^ state[2][i] ^ state[3][i];
 
+        Tm = state[0][i] ^ state[1][i]; Tm = xtime(Tm); state[0][i] = state[0][i] ^ (Tm ^ Tmp);
+        Tm = state[1][i] ^ state[2][i]; Tm = xtime(Tm); state[1][i] ^= Tm ^ Tmp;
+        Tm = state[2][i] ^ state[3][i]; Tm = xtime(Tm); state[2][i] ^= Tm ^ Tmp;
+        Tm = state[3][i] ^ t; Tm = xtime(Tm); state[3][i] ^= Tm ^ Tmp;
 
-
-        Tm = state[0][i] ^ state[1][i];
-        Tm = xtime(Tm); 
-        state[0][i] = state[0][i] ^ (Tm ^ Tmp);
-
-
-
-        Tm = state[1][i] ^ state[2][i];
-        Tm = xtime(Tm); 
-        state[1][i] ^= Tm ^ Tmp;
-
-
-
-        Tm = state[2][i] ^ state[3][i]; 
-        Tm = xtime(Tm); 
-        state[2][i] ^= Tm ^ Tmp;
-
-
-
-        Tm = state[3][i] ^ t; 
-        Tm = xtime(Tm); 
-        state[3][i] ^= Tm ^ Tmp;
     print("state :",state)
-    res = []
-        
-    for i in range(4) :
-        res.append([])
-        for j in range(4) :
-            res[i].append(state[j][i])
-    print("res 1 :",res)
-    for i in range(len(res)) :
-        for j in range(len(res[i])) :
-            res[i][j] = str(hex(res[i][j]))[2:]
-            if (len(res[i][j])>2) :
-                res[i][j] = res[i][j][1:]
+    
+    print("state 1 :",state)
+    for i in range(len(state)) :
+        for j in range(len(state[i])) :
+            state[i][j] = str(hex(state[i][j]))[2:]
+            if (len(state[i][j])>2) :
+                state[i][j] = state[i][j][1:]
+                
+    res = Horizontal2Vertical(state)
     print("res 2 :",res)
     
 

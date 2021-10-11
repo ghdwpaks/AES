@@ -96,6 +96,7 @@ def SubBytes(state,sbox) :
 
 #state = tr.SubBytes(ks.GetKey("State.txt"),sbox)
 input_state = tr.list_chunk(ks.GetKey("State.txt"),4)
+input_state = tr.Horizontal2Vertical(input_state)
 input_round_key = tr.list_chunk(ks.GetKey("Cipher.txt"),4)
 state = []
 for i in range(len(input_state)) :
@@ -108,8 +109,19 @@ for i in range(9) :
 state = SubBytes(state,sbox)
 state = ShiftRows(state)
 state = AddRoundKey(state,rkey,9)
-print(state)
+print("round 10 state:",state)
+state = tr.Vertical2Horizontal(state)
 res = []
+for i in range(len(state)) :
+    for j in range(len(state[i])) :
+        res.append(state[i][j])
+res = "".join(res)
+print(res)
+
+f = open("./Result.txt",'w')
+f.write(res)
+f.close()
+
 
 
 

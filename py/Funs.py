@@ -4,7 +4,7 @@ import KeyScheduling as ks
 
 class tr :
     def xtime(x) : return ((x<<1) ^ (((x>>7) & 1) * 0x1b))
-
+    
     def Vertical2Horizontal(state) :
         #세로를 가로로
         ShiftRow_state_temp = []

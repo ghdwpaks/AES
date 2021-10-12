@@ -1,6 +1,6 @@
 from os import rename
 import copy as c
-import KeyScheduling as ks
+from ENC.py import KeyScheduling as ks
 
 class tr :
     def xtime(x) : return ((x<<1) ^ (((x>>7) & 1) * 0x1b))

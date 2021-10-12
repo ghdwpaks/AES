@@ -1,5 +1,5 @@
 from os import popen, rename
-import Funs
+from ENC.py import Funs
 
 def ReturnUpSbox() :
         sbox = """63	7c	77	7b	f2	6b	6f	c5	30	01	67	2b	fe	d7	ab	76
@@ -82,12 +82,14 @@ def GetKey(path="key_folder/Key.txt",div=2) :
         key_list.append(temp)
     return key_list
 
-def ks_main() :
+def ks_main(key_path) :
 
     sbox = ReturnUpSbox()
     rcons = ReturnUpRcon()
     rcons += ['1b','36'] 
-    C_key = GetKey()
+    C_key = GetKey(key_path)
+    #print("ENC.py KeyScheduling key_path :",key_path)
+    #print("ENC.py KeyScheduling C_key :",C_key)
     C_key = Funs.tr.list_chunk(C_key,4)
 
     r = []

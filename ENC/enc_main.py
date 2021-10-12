@@ -1,12 +1,12 @@
 import copy as c
-from os import stat
-import KeyScheduling as ks
-from Funs import tr 
-from Funs import print_funcs as p
-ks.ks_main()
+#import KeyScheduling as ks
+#from py import KeyScheduling as ks
+from ENC.py import KeyScheduling as ks
+from ENC.py.Funs import tr 
+from ENC.py.Funs import print_funcs as p
 sbox = ks.ReturnUpSbox()
 rcon = ks.ReturnUpRcon()
-rkey = ks.ks_main()
+#rkey = ks.ks_main()
 
 
 
@@ -51,14 +51,14 @@ def MixColumns(state) :
     state = tr.Vertical2Horizontal(state)
     #for (i = 0; i < 4; i++)
     for i in range(4) :
-        t = state[0][i];
+        t = state[0][i]
 
-        Tmp = state[0][i] ^ state[1][i] ^ state[2][i] ^ state[3][i];
+        Tmp = state[0][i] ^ state[1][i] ^ state[2][i] ^ state[3][i]
 
-        Tm = state[0][i] ^ state[1][i]; Tm = tr.xtime(Tm); state[0][i] = state[0][i] ^ (Tm ^ Tmp);
-        Tm = state[1][i] ^ state[2][i]; Tm = tr.xtime(Tm); state[1][i] ^= Tm ^ Tmp;
-        Tm = state[2][i] ^ state[3][i]; Tm = tr.xtime(Tm); state[2][i] ^= Tm ^ Tmp;
-        Tm = state[3][i] ^ t; Tm = tr.xtime(Tm); state[3][i] ^= Tm ^ Tmp;
+        Tm = state[0][i] ^ state[1][i]; Tm = tr.xtime(Tm); state[0][i] = state[0][i] ^ (Tm ^ Tmp)
+        Tm = state[1][i] ^ state[2][i]; Tm = tr.xtime(Tm); state[1][i] ^= Tm ^ Tmp
+        Tm = state[2][i] ^ state[3][i]; Tm = tr.xtime(Tm); state[2][i] ^= Tm ^ Tmp
+        Tm = state[3][i] ^ t; Tm = tr.xtime(Tm); state[3][i] ^= Tm ^ Tmp
 
     #print("state :",state)
     
@@ -92,35 +92,40 @@ def SubBytes(state,sbox) :
 
 
 
+def enc_main(state_path,rkey_path) :
+    #state_file : "C:\workspace\AES\State.txt"
+    #cipher_file : "C:\workspace\AES\Cipher.txt"
 
+    #state = tr.SubBytes(ks.GetKey("State.txt"),sbox)
+    state_file = ks.GetKey(state_path)
+    rkey = ks.ks_main(rkey_path)
+    #print("ENC.py.enc_main enc_main state_file :",state_file)
+    #print("ENC.py.enc_main enc_main rkey :",rkey)
+    input_state = tr.list_chunk(state_file,4)
+    input_state = tr.Horizontal2Vertical(input_state)
+    input_round_key = tr.list_chunk(ks.GetKey(rkey_path),4)
+    #print("ENC.py.enc_main enc_main input_round_key :",input_round_key)
+    state = []
+    for i in range(len(input_state)) :
+        state.append(tr.XOR_list(input_state[i],input_round_key[i]))
+    #print("state 1 :",state)
+    #round 1 r key = rkey[0]
+    for i in range(9) :
+        state = AddRoundKey(MixColumns(ShiftRows(SubBytes(state,sbox))),rkey,i)
+        print("round {} state : {}".format(i+1,state))
+    state = SubBytes(state,sbox)
+    state = ShiftRows(state)
+    state = AddRoundKey(state,rkey,9)
+    print("round 10 state:",state)
+    state = tr.Vertical2Horizontal(state)
+    res = []
+    for i in range(len(state)) :
+        for j in range(len(state[i])) :
+            res.append(state[i][j])
+    res = "".join(res)
+    print(res)
 
-#state = tr.SubBytes(ks.GetKey("State.txt"),sbox)
-input_state = tr.list_chunk(ks.GetKey("State.txt"),4)
-input_state = tr.Horizontal2Vertical(input_state)
-input_round_key = tr.list_chunk(ks.GetKey("Cipher.txt"),4)
-state = []
-for i in range(len(input_state)) :
-    state.append(tr.XOR_list(input_state[i],input_round_key[i]))
-print("state 1 :",state)
-#round 1 r key = rkey[0]
-for i in range(9) :
-    state = AddRoundKey(MixColumns(ShiftRows(SubBytes(state,sbox))),rkey,i)
-    print("round {} state : {}".format(i+1,state))
-state = SubBytes(state,sbox)
-state = ShiftRows(state)
-state = AddRoundKey(state,rkey,9)
-print("round 10 state:",state)
-state = tr.Vertical2Horizontal(state)
-res = []
-for i in range(len(state)) :
-    for j in range(len(state[i])) :
-        res.append(state[i][j])
-res = "".join(res)
-print(res)
-
-f = open("./Result.txt",'w')
-f.write(res)
-f.close()
+    return res
 
 
 

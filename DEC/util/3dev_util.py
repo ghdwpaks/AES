@@ -37,34 +37,102 @@ def Horizontal2Vertical(state) :
             res[i].append(state[j][i])
     return res
 
-def xtime(x) : return ((x<<1) ^ (((x>>7) & 1) * 0x1b))
+def xtime(x) : 
+    return ((x<<1) ^ (((x>>7) & 1) * 0x1b))
 def dev(state) :
+    print("starting state :",state)
     for i in range(4) :
+        print("i :",i)
+        print("state :",state)
+        print("")
 
         t = state[0][i]
-
+        print("t :",t)
+        print()
         Tmp = state[0][i] ^ state[1][i] ^ state[2][i] ^ state[3][i]
+        print("")
+        print("Tmp :",Tmp)
+        print("state[0][",i,"] :",state[0][i])
+        print("state[1][",i,"] :",state[1][i])
+        print("state[2][",i,"] :",state[2][i])
+        print("state[3][",i,"] :",state[3][i])
 
+
+
+        print("")
         Tm = state[0][i] ^ state[1][i]
+        print("Tm 1 :",Tm)
+        print("")
 
 
         Tm = xtime(Tm)
+        print("")
+        print("Tm 2 :",Tm)
+        print("state[0][",i,"] :",state[0][i])
+        print("")
         state[0][i] = state[0][i] ^ (Tm ^ Tmp)
+        print("")
+        print("state[0][",i,"] = state[0][",i,"] ^ (",Tm," ^ ",Tmp,")")
+        print("state[0][",i,"] :",state[0][i])
+
+        print("\n\n0"+str("*"*20)+"\n\n")
 
 
         Tm = state[1][i] ^ state[2][i]
+        print("state[1][",i,"] :",state[1][i])
+        print("state[2][",i,"] :",state[2][i])
+        print("Tm bxtime:",Tm)
+        print("")
         Tm = xtime(Tm)
+        print("")
+        print("Tm axtime:",Tm)
+        print("Tmp :",Tmp)
+        print("Tm ^ Tmp :",Tm ^ Tmp)
+        print("state[1][",i,"] :",state[1][i])
+        print("")
         state[1][i] ^= Tm ^ Tmp
+        print("")
+        print("state[1][",i,"] :",state[1][i])
+
+        print("\n\n1"+str("*"*20)+"\n\n")
 
 
         Tm = state[2][i] ^ state[3][i]
+        print("state[2][",i,"] :",state[2][i])
+        print("state[3][",i,"] :",state[3][i])
+        print("Tm bxtime:",Tm)
+        print("")
         Tm = xtime(Tm)
+        print("")
+        print("Tm axtime:",Tm)
+        print("Tmp :",Tmp)
+        print("Tm ^ Tmp :",Tm ^ Tmp)
+        print("state[2][",i,"] :",state[2][i])
+        print("")
         state[2][i] ^= Tm ^ Tmp
+        print("")
+        print("state[2][",i,"] :",state[2][i])
+        print("\n\n2"+str("*"*20)+"\n\n")
 
 
         Tm = state[3][i] ^ t
+        print("")
+        print("state[3][",i,"] :",state[3][i])
+        print("t :",t)
+        print("Tm bxtime:",Tm)
+        print("")
         Tm = xtime(Tm)
+        print("")
+        print("Tm axtime:",Tm)
+        print("Tmp :",Tmp)
+        print("Tm ^ Tmp :",Tm ^ Tmp)
+        print("state[3][",i,"] :",state[3][i])
+        print("")
         state[3][i] ^= Tm ^ Tmp
+        print("")
+        print("state[3][",i,"] :",state[3][i])
+        print("\n\n3"+str("*"*20)+"\n\n")
+        print("\n\n")
 
 
     for i in range(len(state)) :
@@ -78,8 +146,9 @@ def dev(state) :
     return res
 
 
-state = [["04","66","81","e5"],["e0","cb","19","9a"],["48","f8","d3","7a"],["28","06","26","4c"]]
-state = Vertical2Horizontal(state)
+aftstate = [["04","66","81","e5"],["e0","cb","19","9a"],["48","f8","d3","7a"],["28","06","26","4c"]]
+bfrstate = [["d4","bf","5d","30"],["e0","b4","52","ae"],["b8","41","11","f1"],["1e","27","98","e5"]]
+state = Vertical2Horizontal(bfrstate)
 for i in range(len(state)) :
     for j in range(len(state[i])) :
         state[i][j] = int("0x"+state[i][j],16)

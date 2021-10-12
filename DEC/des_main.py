@@ -24,5 +24,21 @@ def Reverse_ShiftRows(state) :
     return state
 
 
+def Reverse_AddRoundKey(state,rkey,round_count) :
+    res = []
+    for i in range(len(state)) :
+        res.append(tr.XOR_list(state[i],rkey[round_count][i]))
+    return res
+
+
+
+rkey = eks.ks_main("C:\workspace\AES\Cipher.txt")
+#rkey[0]
+state = [["a4","9c","7f","f2"],["68","9f","35","2b"],["6b","5b","ea","43"],["02","6a","50","49"]]
+
+print(Reverse_AddRoundKey(state,rkey,0))
+
+
+
 
 

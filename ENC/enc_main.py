@@ -8,9 +8,6 @@ sbox = ks.ReturnUpSbox()
 rcon = ks.ReturnUpRcon()
 #rkey = ks.ks_main()
 
-
-
-
 def ShiftRows(state) :
     ShiftRows_state = tr.Vertical2Horizontal(state)
     
@@ -54,7 +51,6 @@ def MixColumns(state) :
         t = state[0][i]
 
         Tmp = state[0][i] ^ state[1][i] ^ state[2][i] ^ state[3][i]
-
         Tm = state[0][i] ^ state[1][i]; Tm = tr.xtime(Tm); state[0][i] = state[0][i] ^ (Tm ^ Tmp)
         Tm = state[1][i] ^ state[2][i]; Tm = tr.xtime(Tm); state[1][i] ^= Tm ^ Tmp
         Tm = state[2][i] ^ state[3][i]; Tm = tr.xtime(Tm); state[2][i] ^= Tm ^ Tmp

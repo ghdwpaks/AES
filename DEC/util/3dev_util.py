@@ -38,7 +38,9 @@ def Horizontal2Vertical(state) :
     return res
 
 def xtime(x) : 
-    return ((x<<1) ^ (((x>>7) & 1) * 0x1b))
+    return (
+        (x<<1) ^ ( ( (x>>7) & 1 ) * 0x1b )
+    )
 def dev(state) :
     print("starting state :",state)
     for i in range(4) :
@@ -70,7 +72,7 @@ def dev(state) :
         print("Tm 2 :",Tm)
         print("state[0][",i,"] :",state[0][i])
         print("")
-        state[0][i] = state[0][i] ^ (Tm ^ Tmp)
+        state[0][i] = state[0][i] ^ (Tm ^ Tmp) ################
         print("")
         print("state[0][",i,"] = state[0][",i,"] ^ (",Tm," ^ ",Tmp,")")
         print("state[0][",i,"] :",state[0][i])
@@ -90,7 +92,7 @@ def dev(state) :
         print("Tm ^ Tmp :",Tm ^ Tmp)
         print("state[1][",i,"] :",state[1][i])
         print("")
-        state[1][i] ^= Tm ^ Tmp
+        state[1][i] ^= Tm ^ Tmp##################################
         print("")
         print("state[1][",i,"] :",state[1][i])
 
@@ -109,7 +111,7 @@ def dev(state) :
         print("Tm ^ Tmp :",Tm ^ Tmp)
         print("state[2][",i,"] :",state[2][i])
         print("")
-        state[2][i] ^= Tm ^ Tmp
+        state[2][i] ^= Tm ^ Tmp################################
         print("")
         print("state[2][",i,"] :",state[2][i])
         print("\n\n2"+str("*"*20)+"\n\n")
@@ -128,7 +130,7 @@ def dev(state) :
         print("Tm ^ Tmp :",Tm ^ Tmp)
         print("state[3][",i,"] :",state[3][i])
         print("")
-        state[3][i] ^= Tm ^ Tmp
+        state[3][i] ^= Tm ^ Tmp############################
         print("")
         print("state[3][",i,"] :",state[3][i])
         print("\n\n3"+str("*"*20)+"\n\n")

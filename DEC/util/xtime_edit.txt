@@ -1,0 +1,12 @@
+
+def xtime(x) : return ((x<<1) ^ ( ( (x>>7) & 1 ) * 0x1b ))
+
+def xtime(x) : 
+return ((x<<1) ^ ( ( (x>>7) & 1 ) * 0x1b ))
+
+def xtime(x) : 
+    return (
+        (x<<1) ^ ( ( (x>>7) & 1 ) * 0x1b )
+    )
+
+

@@ -116,6 +116,13 @@ def dev(state) :
         print("state[2][",i,"] :",state[2][i])
         print("\n\n2"+str("*"*20)+"\n\n")
 
+        print("")
+        print("state[0][",i,"] :",state[0][i])
+        print("state[1][",i,"] :",state[1][i])
+        print("state[2][",i,"] :",state[2][i])
+        print("state[3][",i,"] :",state[3][i])
+        print("")
+
 
         Tm = state[3][i] ^ t
         print("")
@@ -136,7 +143,16 @@ def dev(state) :
         print("\n\n3"+str("*"*20)+"\n\n")
         print("\n\n")
 
-
+        
+        print("")
+        print("state[0][",i,"] :",state[0][i])
+        print("state[1][",i,"] :",state[1][i])
+        print("state[2][",i,"] :",state[2][i])
+        print("state[3][",i,"] :",state[3][i])
+        print("")
+        
+        print("state :",state)
+        print("\n\n")
     for i in range(len(state)) :
         for j in range(len(state[i])) :
             state[i][j] = str(hex(state[i][j]))[2:]

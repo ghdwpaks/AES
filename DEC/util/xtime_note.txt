@@ -1,0 +1,8 @@
+>>> 212 ^191 ^ 93 ^ 48
+6
+>>> 4^ 102^ 129^ 229
+6
+
+
+mixculomn의 결과값들의 총합 xor과 mixculomn을 지나기 전의 값들의 총합 xor이 같음
+The sum xor of the result values of mixulomon and the sum xor of the values before mixulomon are the same.

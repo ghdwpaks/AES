@@ -1,0 +1,172 @@
+void MixColumns()
+{
+    int i;
+    unsigned char Tmp, Tm, t;
+    int state[4][4] = { {212,191,93,48},{224,180,82,174},{184,65,17,241},{30,39,153,229 } };
+    //int state2[4][4] = { d4,bf,5d,30,e0,b4  ,52,ae,b8  ,41,11,f1,1e,27,98,e5};
+    //int state[4][4];
+
+    for (i = 0; i < 4; i++)
+    {
+        t = state[0][i];
+
+        Tmp = state[0][i] ^ state[1][i] ^ state[2][i] ^ state[3][i];
+
+
+
+        Tm = state[0][i] ^ state[1][i];
+        Tm = xtime(Tm); 
+        state[0][i] = state[0][i] ^ (Tm ^ Tmp);
+
+
+
+        Tm = state[1][i] ^ state[2][i];
+        Tm = xtime(Tm); 
+        state[1][i] ^= Tm ^ Tmp;
+
+
+
+        Tm = state[2][i] ^ state[3][i]; 
+        Tm = xtime(Tm); 
+        state[2][i] ^= Tm ^ Tmp;
+
+
+
+        Tm = state[3][i] ^ t; 
+        Tm = xtime(Tm); 
+        state[3][i] ^= Tm ^ Tmp;
+    }
+}
+
+기본적으로 이렇게 쓰여잇었던 C 코드를 변형하여
+
+for i in range(4) :
+        t = state[0][i]
+
+        Tmp = state[0][i] ^ state[1][i] ^ state[2][i] ^ state[3][i]
+        Tm = state[0][i] ^ state[1][i]; Tm = tr.xtime(Tm); state[0][i] = state[0][i] ^ (Tm ^ Tmp)
+        Tm = state[1][i] ^ state[2][i]; Tm = tr.xtime(Tm); state[1][i] ^= Tm ^ Tmp
+        Tm = state[2][i] ^ state[3][i]; Tm = tr.xtime(Tm); state[2][i] ^= Tm ^ Tmp
+        Tm = state[3][i] ^ t; Tm = tr.xtime(Tm); state[3][i] ^= Tm ^ Tmp
+
+
+이러한 파이썬 언어로 바꿨습니다.
+(*위의 코드에서 i 가 0일때)
+
+def xtime(x) : return ((x<<1) ^ ( ( (x>>7) & 1 ) * 0x1b ))
+
+t = state[0][0]
+Tmp = state[0][0] ^ state[1][0] ^ state[2][0] ^ state[3][0]
+
+Tm = state[0][0] ^ state[1][0]
+Tm = xtime(Tm)
+state[0][0] ^= Tm ^ Tmp
+
+Tm = state[1][0] ^ state[2][0]
+Tm = xtime(Tm)
+state[1][0] ^= Tm ^ Tmp
+
+Tm = state[2][0] ^ state[3][0]
+Tm = xtime(Tm)
+state[2][0] ^= Tm ^ Tmp
+
+Tm = state[3][0] ^ t
+Tm = xtime(Tm)
+state[3][0] ^= Tm ^ Tmp
+
+
+t = state[0][0];Tmp = state[0][0] ^ state[1][0] ^ state[2][0] ^ state[3][0];Tm = state[0][0] ^ state[1][0];Tm = xtime(Tm);state[0][0] ^= Tm ^ Tmp;Tm = state[1][0] ^ state[2][0];Tm = xtime(Tm);state[1][0] ^= Tm ^ Tmp;Tm = state[2][0] ^ state[3][0];Tm = xtime(Tm);state[2][0] ^= Tm ^ Tmp;Tm = state[3][0] ^ t;Tm = xtime(Tm);state[3][0] ^= Tm ^ Tmp
+
+
+'''
+d4  212
+bf  191
+5d  93
+30  48
+
+
+[[212],[191],[93],[48]]
+
+
+04  04  04
+358 66  102
+129 81  129
+485 e5  229
+[[4],[102],[129],[229]]
+[[4],[358],[129],[485]]
+''' 
+
+================================================================================================================================================================================================
+
+아래는 실험에 쓰이는 코드들입니다. 실적용이 되는 경우에는 이 파일이 아닌 다른 파일에 적용될 예정입니다.
+
+t = state[0][0]
+Tmp = state[0][0] ^ state[1][0] ^ state[2][0] ^ state[3][0]
+
+Tm = state[0][0] ^ state[1][0]
+Tm = xtime(Tm)
+
+Tm = state[1][0] ^ state[2][0]
+Tm = xtime(Tm)
+
+Tm = state[2][0] ^ state[3][0]
+Tm = xtime(Tm)
+
+Tm = state[3][0] ^ t
+Tm = xtime(Tm)
+state[3][0] ^= Tm ^ Tmp
+
+
+t = state[0][0];Tmp = state[0][0] ^ state[1][0] ^ state[2][0] ^ state[3][0];Tm = state[0][0] ^ state[1][0];Tm = xtime(Tm);Tm = state[1][0] ^ state[2][0];Tm = xtime(Tm);Tm = state[2][0] ^ state[3][0];Tm = xtime(Tm);Tm = state[3][0] ^ t;Tm = xtime(Tm);state[3][0] ^= Tm ^ Tmp
+
+입력수치 : [[4],[102],[129],[229]]
+목표수치 : [[4],[358],[129],[48]]
+결과수치 : [[4], [102], [129], [314]]
+314 - 256 = 58
+
+
+입력수치 : [[4],[358],[129],[485]]
+목표수치 : [[4],[358],[129],[48]]
+결과수치 : [[4], [358], [129], [485]]
+
+
+================================================================================================================================================================================================
+
+
+t = state[0][0]
+Tmp = state[0][0] ^ state[1][0] ^ state[2][0] ^ state[3][0]
+
+Tm = state[3][0] ^ t
+Tm = xtime(Tm)
+state[3][0] ^= Tm ^ Tmp
+
+Tm = state[2][0] ^ state[3][0]
+Tm = xtime(Tm)
+state[2][0] ^= Tm ^ Tmp
+
+Tm = state[1][0] ^ state[2][0]
+Tm = xtime(Tm)
+state[1][0] ^= Tm ^ Tmp
+
+Tm = state[0][0] ^ state[1][0]
+Tm = xtime(Tm)
+state[0][0] ^= Tm ^ Tmp
+
+
+t = state[0][0];Tmp = state[0][0] ^ state[1][0] ^ state[2][0] ^ state[3][0];Tm = state[3][0] ^ t;Tm = xtime(Tm);state[3][0] ^= Tm ^ Tmp;Tm = state[2][0] ^ state[3][0];Tm = xtime(Tm);state[2][0] ^= Tm ^ Tmp;Tm = state[1][0] ^ state[2][0];Tm = xtime(Tm);state[1][0] ^= Tm ^ Tmp;Tm = state[0][0] ^ state[1][0];Tm = xtime(Tm);state[0][0] ^= Tm ^ Tmp;
+
+입력수치 : [[4],[102],[129],[229]]
+목표수치 : [[212],[191],[93],[48]]
+결과수치 : [[3788], [1891], [1002], [314]]
+결과수치 : [[204], [99], [234], [58]]
+
+입력수치 : [[4],[358],[129],[485]]
+목표수치 : [[4],[102],[129],[229]]
+결과수치 : [[4], [358], [129], [485]]
+
+
+
+
+================================================================================================================================================================================================
+
+

@@ -37,10 +37,7 @@ def Horizontal2Vertical(state) :
             res[i].append(state[j][i])
     return res
 
-def xtime(x) : 
-    return (
-        (x<<1) ^ ( ( (x>>7) & 1 ) * 0x1b )
-    )
+def xtime(x) : return ((x<<1) ^ ( ( (x>>7) & 1 ) * 0x1b ))
 def dev(state) :
     print("starting state :",state)
     for i in range(4) :

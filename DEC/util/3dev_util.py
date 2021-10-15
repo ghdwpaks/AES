@@ -60,13 +60,13 @@ def dev(state) :
 
         print("")
         Tm = state[0][i] ^ state[1][i]
-        print("Tm 1 :",Tm)
+        print("Tm x 1 :",Tm)
         print("")
 
 
         Tm = xtime(Tm)
         print("")
-        print("Tm 2 :",Tm)
+        print("Tm x 2 :",Tm)
         print("state[0][",i,"] :",state[0][i])
         print("")
         state[0][i] = state[0][i] ^ (Tm ^ Tmp) ################
